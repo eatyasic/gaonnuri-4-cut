@@ -1,6 +1,7 @@
 import "styles/global.css";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import Camera from "components/Camera";
 
 const Container = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: end;
   width: 100vw;
-  height: 100vh;
+  height: var(--vh);
 `;
 
 const Counter = styled.p`
@@ -18,18 +19,20 @@ const Counter = styled.p`
 `;
 
 const CameraLocation = styled.div`
-  width: 100vw;
-  max-height: 100vw;
-  background-color: black;
+  max-height: calc(100vh - 260px);
   display: flex;
+  height: 100vmin;
+  width: 100%;
+  background-color: black;
   justify-content: center;
-  flex-grow: 1;
 `;
 
 const CameraView = styled.div`
+  position: relative;
   aspect-ratio: 1;
-  max-width: 100vw;
-  max-height: 100vw;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
   background-color: gray;
 `;
 
@@ -54,7 +57,9 @@ const ShootingPage = () => {
     <Container>
       <Counter>{count}/8</Counter>
       <CameraLocation>
-        <CameraView></CameraView>
+        <CameraView>
+          <Camera />
+        </CameraView>
       </CameraLocation>
       <Button onClick={buttonClick}></Button>
     </Container>
