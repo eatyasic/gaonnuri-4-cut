@@ -10,9 +10,9 @@ const Test = () => {
       aspectRatio={"cover"}
       errorMessages={{
         noCameraAccessible:
-          "No camera device accessible. Please connect your camera or try a different browser.",
+          "카메라 계열 장치에 접근할 수 없습니다. 카메라를 연결하거나 다른 브라우저에서 시도해보세요.",
         permissionDenied:
-          "Permission denied. Please refresh and give camera permission.",
+          "카메라 액세스 권한이 거부되었습니다. 권한을 허용한 뒤 리로드 해보세요.",
         switchCamera:
           "It is not possible to switch camera to different one because there is only one video device accessible.",
         canvas: "Canvas is not supported.",

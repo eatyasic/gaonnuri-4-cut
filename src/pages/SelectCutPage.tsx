@@ -48,9 +48,10 @@ const Selection = styled.div`
 
 interface Props {
   readonly nextUrl: string;
+  readonly setCutNum: (num: number) => void;
 }
 
-const SelectCutPage = ({ nextUrl }: Props) => {
+const SelectCutPage = ({ nextUrl, setCutNum }: Props) => {
   const navigate = useNavigate();
   const GoToShootingPage = () => {
     navigate(nextUrl);

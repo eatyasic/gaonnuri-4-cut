@@ -1,7 +1,9 @@
 import "styles/global.css";
 import styled from "@emotion/styled";
-import { useState } from "react";
-import Camera from "components/Camera";
+import { useState, useRef } from "react";
+import { Camera } from "react-camera-pro";
+import PictureProvider from "App";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -45,12 +47,28 @@ const Button = styled.div`
   border: 10px;
 `;
 
-const ShootingPage = () => {
+interface Props {
+  readonly nextURL: string;
+  readonly setPictures: ([]: string[]) => void;
+}
+
+const picArr: string[] = [];
+
+const ShootingPage = ({ nextURL, setPictures }: Props) => {
+  const camera = useRef<any>(null);
   const [count, setCount] = useState(0);
 
+  const navigate = useNavigate();
+  const GoToNextPage = () => {
+    navigate(nextURL);
+  };
+
   const buttonClick = () => {
+    picArr.push(camera.current.takePhoto());
     setCount((x) => x + 1);
     if (count >= 8) {
+      setPictures(picArr);
+      GoToNextPage();
     }
   };
   return (
@@ -58,7 +76,19 @@ const ShootingPage = () => {
       <Counter>{count}/8</Counter>
       <CameraLocation>
         <CameraView>
-          <Camera />
+          <Camera
+            aspectRatio={"cover"}
+            errorMessages={{
+              noCameraAccessible:
+                "카메라 계열 장치에 접근할 수 없습니다. 카메라를 연결하거나 다른 브라우저에서 시도해보세요.",
+              permissionDenied:
+                "카메라 액세스 권한이 거부되었습니다. 권한을 허용한 뒤 리로드 해보세요.",
+              switchCamera:
+                "It is not possible to switch camera to different one because there is only one video device accessible.",
+              canvas: "Canvas is not supported.",
+            }}
+            ref={camera}
+          />
         </CameraView>
       </CameraLocation>
       <Button onClick={buttonClick}></Button>
