@@ -1,26 +1,39 @@
 import styled from "@emotion/styled";
-import EmptyFrame6Cut from "components/EmptyFame6Cut";
-import EmptyFrame4Cut from "components/EmptyFrame4Cut";
 import "styles/selectCutPage.css";
 import { useNavigate } from "react-router-dom";
+import bigDefaultBlack from "assets/big-default-black.svg";
+import smallDefaultBlack from "assets/small-default-black.svg";
+import bigDefaultWhite from "assets/big-default-white.svg";
+import smallDefaultWhite from "assets/small-default-white.svg";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 260px;
+  height: 100vh;
+  width: 100vw;
   align-items: center;
+  text-align: center;
+  row-gap: 20px;
 `;
 
-const Label = styled.p`
+const Header = styled.p`
   font-family: "Pretendard-ExtraBold";
-  size: 20px;
+  font-size: 20px;
+  width: 100%;
+  margin: 70px 0 30px 0;
+  vertical-align: middle;
 `;
 
 const Row = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: 30px;
+  justify-content: center;
+`;
+
+const FrameImg = styled.img`
+  height: 250px;
 `;
 
 const Selection = styled.div`
@@ -36,7 +49,7 @@ const Selection = styled.div`
     top: -5px;
     left: -5px;
     right: -5px;
-    bottom: 19px;
+    bottom: -5px;
     border: 10px solid transparent;
     pointer-events: none;
   }
@@ -58,15 +71,21 @@ const SelectCutPage = ({ nextUrl, setCutNum }: Props) => {
   };
   return (
     <Container>
-      <Label style={{ marginBottom: "33px" }}>프레임 개수를 선택하세요</Label>
+      <Header>프레임을 선택하세요</Header>
       <Row>
-        <Selection onClick={GoToShootingPage}>
-          <EmptyFrame4Cut scale={0.5} />
-          <Label>4 cut</Label>
+        <Selection>
+          <FrameImg src={smallDefaultBlack} onClick={GoToShootingPage} />
         </Selection>
-        <Selection onClick={GoToShootingPage}>
-          <EmptyFrame6Cut scale={0.5} />
-          <Label>6 cut</Label>
+        <Selection>
+          <FrameImg src={bigDefaultBlack} onClick={GoToShootingPage} />
+        </Selection>
+      </Row>
+      <Row>
+        <Selection>
+          <FrameImg src={smallDefaultWhite} onClick={GoToShootingPage} />
+        </Selection>
+        <Selection>
+          <FrameImg src={bigDefaultWhite} onClick={GoToShootingPage} />
         </Selection>
       </Row>
     </Container>
