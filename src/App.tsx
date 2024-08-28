@@ -1,14 +1,16 @@
 import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import StartPage from "pages/StartPage";
 import SelectCutPage from "pages/SelectCutPage";
-import ShootingPage from "pages/ShootinPage";
+import ShootingPage from "pages/ShootingPage";
 import Test from "components/Test";
 import { useState } from "react";
 import SelectPhotoPage from "pages/SelectPhotoPage";
 
 function App() {
   const [pictures, setPictures] = useState<string[]>([]);
-  const [cutNum, setCutNum] = useState(0);
+  const [selectedFrame, setSelectedFrame] = useState<any>();
+  const [isCharacter, setIsCharacter] = useState<boolean>();
+  const [photoRatio, SetPhotoRatio] = useState<string>();
 
   const setVh = () => {
     document.documentElement.style.setProperty(
@@ -25,17 +27,35 @@ function App() {
         <Route path="/" element={<StartPage nextUrl="/selectCut" />} />
         <Route
           path="/selectCut"
-          element={<SelectCutPage nextUrl="/shooting" setCutNum={setCutNum} />}
+          element={
+            <SelectCutPage
+              nextUrl="/shooting"
+              setSelectedFrame={setSelectedFrame}
+              setIsCharacter={setIsCharacter}
+              setPhotoRatio={SetPhotoRatio}
+            />
+          }
         />
         <Route
           path="/shooting"
           element={
-            <ShootingPage nextURL="/selectPhoto" setPictures={setPictures} />
+            <ShootingPage
+              nextURL="/selectPhoto"
+              setPictures={setPictures}
+              isCharacter={isCharacter!}
+              photoRatio={photoRatio!}
+            />
           }
         />
         <Route
           path="/selectPhoto"
-          element={<SelectPhotoPage nextURL="/" pictures={pictures} />}
+          element={
+            <SelectPhotoPage
+              nextURL="/"
+              pictures={pictures}
+              frame={selectedFrame}
+            />
+          }
         />
         <Route path="/test" element={<Test />} />
       </Routes>

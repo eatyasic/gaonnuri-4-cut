@@ -5,6 +5,10 @@ import bigDefaultBlack from "assets/big-default-black.svg";
 import smallDefaultBlack from "assets/small-default-black.svg";
 import bigDefaultWhite from "assets/big-default-white.svg";
 import smallDefaultWhite from "assets/small-default-white.svg";
+import smallCharacterSky from "assets/small-character-sky.png";
+import bigCharacterSky from "assets/big-character-sky.png";
+import smallCharacterGreen from "assets/small-character-green.png";
+import bigCharacterGreen from "assets/big-character-green.png";
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +17,6 @@ const Container = styled.div`
   width: 100vw;
   align-items: center;
   text-align: center;
-  row-gap: 20px;
 `;
 
 const Header = styled.p`
@@ -42,6 +45,7 @@ const Selection = styled.div`
   align-items: center;
   gap: 8px;
   position: relative;
+  margin-bottom: 30px;
 
   &::before {
     content: "";
@@ -61,33 +65,64 @@ const Selection = styled.div`
 
 interface Props {
   readonly nextUrl: string;
-  readonly setCutNum: (num: number) => void;
+  readonly setSelectedFrame: (arg0: any) => void;
+  readonly setIsCharacter: (arg0: boolean) => void;
+  readonly setPhotoRatio: (arg0: string) => void;
 }
 
-const SelectCutPage = ({ nextUrl, setCutNum }: Props) => {
+const SelectCutPage = ({
+  nextUrl,
+  setSelectedFrame,
+  setIsCharacter,
+  setPhotoRatio,
+}: Props) => {
   const navigate = useNavigate();
-  const GoToShootingPage = () => {
+  const GoToShootingPage = (
+    selectedFrame: any,
+    isCharacter: boolean,
+    ratio: string
+  ) => {
     navigate(nextUrl);
+    setSelectedFrame(selectedFrame);
+    setIsCharacter(isCharacter);
+    setPhotoRatio(ratio);
   };
+
+  const FrameList: Array<[any, boolean, string]> = [
+    [smallCharacterSky, false, "260/181"],
+    [bigCharacterSky, true, "273/376"],
+    [smallCharacterGreen, false, "260/181"],
+    [bigCharacterGreen, true, "273/376"],
+    [smallDefaultBlack, false, "260/181"],
+    [bigDefaultBlack, false, "273/376"],
+    [smallDefaultWhite, false, "260/181"],
+    [bigDefaultWhite, false, "273/376"],
+  ];
+
+  const toTwoRowList = (array: Array<[any, boolean, string]>) => {
+    const row = [];
+    for (let i = 0; i < array.length; i += 2) {
+      row.push(array.slice(i, i + 2));
+    }
+    return row;
+  };
+
+  const twoRowList = toTwoRowList(FrameList);
+
   return (
     <Container>
       <Header>프레임을 선택하세요</Header>
-      <Row>
-        <Selection>
-          <FrameImg src={smallDefaultBlack} onClick={GoToShootingPage} />
-        </Selection>
-        <Selection>
-          <FrameImg src={bigDefaultBlack} onClick={GoToShootingPage} />
-        </Selection>
-      </Row>
-      <Row>
-        <Selection>
-          <FrameImg src={smallDefaultWhite} onClick={GoToShootingPage} />
-        </Selection>
-        <Selection>
-          <FrameImg src={bigDefaultWhite} onClick={GoToShootingPage} />
-        </Selection>
-      </Row>
+      {twoRowList.map((row, index) => (
+        <Row key={index}>
+          {row.map(([frame, isCharacter, photoRatio]) => (
+            <Selection
+              onClick={() => GoToShootingPage(frame, isCharacter, photoRatio)}
+            >
+              <FrameImg src={frame} />
+            </Selection>
+          ))}
+        </Row>
+      ))}
     </Container>
   );
 };

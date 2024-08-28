@@ -1,9 +1,14 @@
 import "styles/global.css";
+import "styles/fullpage.css";
 import styled from "@emotion/styled";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
 import PictureProvider from "App";
 import { Navigate, useNavigate } from "react-router-dom";
+import character_1 from "assets/frame-character-1.png";
+import character_2 from "assets/frame-character-2.png";
+import character_3 from "assets/frame-character-3.png";
+import character_4 from "assets/frame-character-4.png";
 
 const Container = styled.div`
   display: flex;
@@ -29,16 +34,20 @@ const CameraLocation = styled.div`
   justify-content: center;
 `;
 
-const CameraView = styled.div`
+const CameraView = styled.div<CameraProps>`
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: ${({ photoRatio }) => photoRatio};
   height: 100%;
   display: flex;
   overflow: hidden;
   background-color: gray;
 `;
 
-const Button = styled.div`
+interface CameraProps {
+  photoRatio: string;
+}
+
+const Button = styled.button`
   margin: 60px 0;
   width: 100px;
   height: 100px;
@@ -47,16 +56,31 @@ const Button = styled.div`
   border: 10px;
 `;
 
+const Character = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 9999;
+`;
+
 interface Props {
   readonly nextURL: string;
   readonly setPictures: ([]: string[]) => void;
+  readonly isCharacter: boolean;
+  readonly photoRatio: string;
 }
 
 const picArr: string[] = [];
 
-const ShootingPage = ({ nextURL, setPictures }: Props) => {
+const ShootingPage = ({
+  nextURL,
+  setPictures,
+  isCharacter,
+  photoRatio,
+}: Props) => {
   const camera = useRef<any>(null);
   const [count, setCount] = useState(0);
+  const [curCharacter, setCurCharacter] = useState<any>();
 
   const navigate = useNavigate();
   const GoToNextPage = () => {
@@ -66,16 +90,29 @@ const ShootingPage = ({ nextURL, setPictures }: Props) => {
   const buttonClick = () => {
     picArr.push(camera.current.takePhoto());
     setCount((x) => x + 1);
-    if (count >= 8) {
+    if (count >= 7) {
       setPictures(picArr);
       GoToNextPage();
     }
+    changeCharacter();
   };
+
+  const changeCharacter = () => {
+    console.log(count);
+    if (~~(count / 2) === 0) setCurCharacter(character_1);
+    else if (~~(count / 2) === 1) setCurCharacter(character_2);
+    else if (~~(count / 2) === 2) setCurCharacter(character_3);
+    else if (~~(count / 2) === 3) setCurCharacter(character_4);
+  };
+  console.log("캐릭터 모드: ", isCharacter);
+  useEffect(() => {
+    changeCharacter();
+  }, [count]);
   return (
     <Container>
       <Counter>{count}/8</Counter>
       <CameraLocation>
-        <CameraView>
+        <CameraView photoRatio={photoRatio}>
           <Camera
             aspectRatio={"cover"}
             errorMessages={{
@@ -89,6 +126,7 @@ const ShootingPage = ({ nextURL, setPictures }: Props) => {
             }}
             ref={camera}
           />
+          {isCharacter && <Character src={curCharacter} />}
         </CameraView>
       </CameraLocation>
       <Button onClick={buttonClick}></Button>
