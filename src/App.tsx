@@ -11,6 +11,7 @@ function App() {
   const [selectedFrame, setSelectedFrame] = useState<any>();
   const [isCharacter, setIsCharacter] = useState<boolean>();
   const [photoRatio, SetPhotoRatio] = useState<string>();
+  const [isBigFrame, setIsBigFrame] = useState<boolean>();
 
   const setVh = () => {
     document.documentElement.style.setProperty(
@@ -33,6 +34,7 @@ function App() {
               setSelectedFrame={setSelectedFrame}
               setIsCharacter={setIsCharacter}
               setPhotoRatio={SetPhotoRatio}
+              setIsBigFrame={setIsBigFrame}
             />
           }
         />
@@ -51,9 +53,9 @@ function App() {
           path="/selectPhoto"
           element={
             <SelectPhotoPage
-              nextURL="/"
               pictures={pictures}
               frame={selectedFrame}
+              isBigFrame={isBigFrame!}
             />
           }
         />

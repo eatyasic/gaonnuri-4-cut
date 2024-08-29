@@ -68,6 +68,7 @@ interface Props {
   readonly setSelectedFrame: (arg0: any) => void;
   readonly setIsCharacter: (arg0: boolean) => void;
   readonly setPhotoRatio: (arg0: string) => void;
+  readonly setIsBigFrame: (arg0: boolean) => void;
 }
 
 const SelectCutPage = ({
@@ -75,31 +76,34 @@ const SelectCutPage = ({
   setSelectedFrame,
   setIsCharacter,
   setPhotoRatio,
+  setIsBigFrame,
 }: Props) => {
   const navigate = useNavigate();
   const GoToShootingPage = (
     selectedFrame: any,
     isCharacter: boolean,
-    ratio: string
+    ratio: string,
+    isBigFrame: boolean
   ) => {
     navigate(nextUrl);
     setSelectedFrame(selectedFrame);
     setIsCharacter(isCharacter);
     setPhotoRatio(ratio);
+    setIsBigFrame(isBigFrame);
   };
 
-  const FrameList: Array<[any, boolean, string]> = [
-    [smallCharacterSky, false, "260/181"],
-    [bigCharacterSky, true, "273/376"],
-    [smallCharacterGreen, false, "260/181"],
-    [bigCharacterGreen, true, "273/376"],
-    [smallDefaultBlack, false, "260/181"],
-    [bigDefaultBlack, false, "273/376"],
-    [smallDefaultWhite, false, "260/181"],
-    [bigDefaultWhite, false, "273/376"],
+  const FrameList: Array<[any, boolean, string, boolean]> = [
+    [smallCharacterSky, false, "260/181", false],
+    [bigCharacterSky, true, "273/376", true],
+    [smallCharacterGreen, false, "260/181", false],
+    [bigCharacterGreen, true, "273/376", true],
+    [smallDefaultBlack, false, "260/181", false],
+    [bigDefaultBlack, false, "273/376", true],
+    [smallDefaultWhite, false, "260/181", false],
+    [bigDefaultWhite, false, "273/376", true],
   ];
 
-  const toTwoRowList = (array: Array<[any, boolean, string]>) => {
+  const toTwoRowList = (array: Array<[any, boolean, string, boolean]>) => {
     const row = [];
     for (let i = 0; i < array.length; i += 2) {
       row.push(array.slice(i, i + 2));
@@ -114,9 +118,11 @@ const SelectCutPage = ({
       <Header>프레임을 선택하세요</Header>
       {twoRowList.map((row, index) => (
         <Row key={index}>
-          {row.map(([frame, isCharacter, photoRatio]) => (
+          {row.map(([frame, isCharacter, photoRatio, isBigFrame]) => (
             <Selection
-              onClick={() => GoToShootingPage(frame, isCharacter, photoRatio)}
+              onClick={() =>
+                GoToShootingPage(frame, isCharacter, photoRatio, isBigFrame)
+              }
             >
               <FrameImg src={frame} />
             </Selection>

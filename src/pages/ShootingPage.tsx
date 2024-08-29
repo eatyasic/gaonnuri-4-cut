@@ -9,6 +9,7 @@ import character_1 from "assets/frame-character-1.png";
 import character_2 from "assets/frame-character-2.png";
 import character_3 from "assets/frame-character-3.png";
 import character_4 from "assets/frame-character-4.png";
+import { transform } from "typescript";
 
 const Container = styled.div`
   display: flex;
@@ -56,6 +57,16 @@ const Button = styled.button`
   border: 10px;
 `;
 
+const Timer = styled.div`
+  margin: 60px 0;
+  width: 100vw;
+  height: 100px;
+  font-family: "Pretendard-ExtraBold";
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+`;
+
 const Character = styled.img`
   width: 100%;
   height: 100%;
@@ -90,7 +101,7 @@ const ShootingPage = ({
   const buttonClick = () => {
     picArr.push(camera.current.takePhoto());
     setCount((x) => x + 1);
-    if (count >= 7) {
+    if (count >= 3) {
       setPictures(picArr);
       GoToNextPage();
     }
@@ -98,20 +109,42 @@ const ShootingPage = ({
   };
 
   const changeCharacter = () => {
-    console.log(count);
-    if (~~(count / 2) === 0) setCurCharacter(character_1);
-    else if (~~(count / 2) === 1) setCurCharacter(character_2);
-    else if (~~(count / 2) === 2) setCurCharacter(character_3);
-    else if (~~(count / 2) === 3) setCurCharacter(character_4);
+    if (count === 0) setCurCharacter(character_1);
+    else if (count === 1) setCurCharacter(character_2);
+    else if (count === 2) setCurCharacter(character_3);
+    else if (count === 3) setCurCharacter(character_4);
   };
-  console.log("캐릭터 모드: ", isCharacter);
   useEffect(() => {
     changeCharacter();
   }, [count]);
+
+  const [seconds, setSeconds] = useState<number>(10);
+  const [visible, setVisible] = useState<boolean>(true);
+  useEffect(() => {
+    // 타이머가 4번만 반복되도록 설정
+    if (count < 4) {
+      const interval = setInterval(() => {
+        setSeconds((prev) => {
+          if (prev <= 1) {
+            setTimeout(() => {
+              setVisible(true);
+            }, 100); // 100ms = 0.1초
+            setVisible(false);
+            buttonClick();
+            return 10; // 타이머를 10초로 리셋
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval); // 컴포넌트 언마운트 시 타이머를 클리어
+    }
+  }, [count]); // count가 변할 때마다 useEffect 실행
+
   return (
     <Container>
-      <Counter>{count}/8</Counter>
-      <CameraLocation>
+      <Counter>{count}/4</Counter>
+      <CameraLocation style={{ display: visible ? "flex" : "none" }}>
         <CameraView photoRatio={photoRatio}>
           <Camera
             aspectRatio={"cover"}
@@ -126,10 +159,13 @@ const ShootingPage = ({
             }}
             ref={camera}
           />
-          {isCharacter && <Character src={curCharacter} />}
+          {isCharacter && (
+            <Character src={curCharacter} style={{ transform: "scaleX(-1)" }} />
+          )}
         </CameraView>
       </CameraLocation>
-      <Button onClick={buttonClick}></Button>
+      {/* <Button onClick={buttonClick}></Button> */}
+      <Timer>{seconds}</Timer>
     </Container>
   );
 };
