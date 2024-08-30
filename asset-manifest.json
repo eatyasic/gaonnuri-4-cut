@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/gaonnuri-4-cut/static/css/main.ade7e42a.css",
-    "main.js": "/gaonnuri-4-cut/static/js/main.ae373cd4.js",
+    "main.js": "/gaonnuri-4-cut/static/js/main.c825394b.js",
     "static/media/big-character-green.png": "/gaonnuri-4-cut/static/media/big-character-green.2c46d959f3341a62ea33.png",
     "static/media/big-character-sky.png": "/gaonnuri-4-cut/static/media/big-character-sky.1d3d8f52043f41e172c3.png",
     "static/media/small-character-green.png": "/gaonnuri-4-cut/static/media/small-character-green.e4c671f48658ab37f802.png",
@@ -13,10 +13,10 @@
     "static/media/small-default-black.svg": "/gaonnuri-4-cut/static/media/small-default-black.0c042bb50d7617f2b9045bf7c5b588a5.svg",
     "index.html": "/gaonnuri-4-cut/index.html",
     "main.ade7e42a.css.map": "/gaonnuri-4-cut/static/css/main.ade7e42a.css.map",
-    "main.ae373cd4.js.map": "/gaonnuri-4-cut/static/js/main.ae373cd4.js.map"
+    "main.c825394b.js.map": "/gaonnuri-4-cut/static/js/main.c825394b.js.map"
   },
   "entrypoints": [
     "static/css/main.ade7e42a.css",
-    "static/js/main.ae373cd4.js"
+    "static/js/main.c825394b.js"
   ]
 }
