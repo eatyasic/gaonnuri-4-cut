@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { toPng } from "html-to-image";
+import html2canvas from "html2canvas";
 import React, { useRef, useState } from "react";
 
 const Container = styled.div`
@@ -7,7 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100%;
+  height: var(--vh);
   justify-content: center;
   align-items: center;
 `;
@@ -61,12 +62,14 @@ const BigPhoto = styled.img`
   object-fit: cover;
   height: 100%;
   width: 137px;
+  transform: scaleX(-1);
 `;
 
 const SmallPhoto = styled.img`
   object-fit: cover;
   height: 90.5px;
   width: 130px;
+  transform: scaleX(-1);
 `;
 
 const Result = styled.div`
@@ -101,9 +104,23 @@ const Button = styled.button`
   width: 150px;
   height: 50px;
   margin-top: 20px;
-  background-color: #3e3ca5;
   color: white;
   border-radius: 10px;
+`;
+
+const Footer = styled.div`
+  font-family: "Pretendard-ExtraLight";
+  color: #999999;
+  position: fixed;
+  display: flex;
+  height: 50px;
+  width: 100vw;
+  align-items: start;
+  justify-content: end;
+  text-align: right;
+  z-index: -1;
+  bottom: 0;
+  right: 10px;
 `;
 
 interface Props {
@@ -114,18 +131,22 @@ interface Props {
 
 const SelectPhotoPage = ({ pictures, frame, isBigFrame }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const [dataurl, setDataurl] = useState<string>("");
+  const [backgroundColor, setBackgroundColor] = useState<string>("#3e3ca5");
 
-  const htmlToImageConvert = () => {
-    toPng(divRef.current!, { cacheBust: false })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "가온네컷.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleCaptureClick = async () => {
+    setBackgroundColor("#666666");
+    if (divRef.current) {
+      const canvas = await html2canvas(divRef.current);
+      const imgData = canvas.toDataURL("image/png");
+      setDataurl(imgData);
+
+      // 이미지 다운로드 링크 생성
+      const link = document.createElement("a");
+      link.href = imgData;
+      link.download = "captured.png";
+      link.click();
+    }
   };
 
   return (
@@ -138,11 +159,11 @@ const SelectPhotoPage = ({ pictures, frame, isBigFrame }: Props) => {
               <PhotoPosition>
                 <PhotoRow>
                   <BigPhoto src={pictures[0]}></BigPhoto>
-                  <BigPhoto src={pictures[2]}></BigPhoto>
+                  <BigPhoto src={pictures[1]}></BigPhoto>
                 </PhotoRow>
                 <PhotoRow>
-                  <BigPhoto src={pictures[4]}></BigPhoto>
-                  <BigPhoto src={pictures[6]}></BigPhoto>
+                  <BigPhoto src={pictures[2]}></BigPhoto>
+                  <BigPhoto src={pictures[3]}></BigPhoto>
                 </PhotoRow>
               </PhotoPosition>
             </BigFrameContainer>
@@ -151,15 +172,23 @@ const SelectPhotoPage = ({ pictures, frame, isBigFrame }: Props) => {
               <Frame src={frame}></Frame>
               <PhotoPosition>
                 <SmallPhoto src={pictures[0]}></SmallPhoto>
+                <SmallPhoto src={pictures[1]}></SmallPhoto>
                 <SmallPhoto src={pictures[2]}></SmallPhoto>
-                <SmallPhoto src={pictures[4]}></SmallPhoto>
-                <SmallPhoto src={pictures[6]}></SmallPhoto>
+                <SmallPhoto src={pictures[3]}></SmallPhoto>
               </PhotoPosition>
             </SmallFrameContainer>
           )}
         </Result>
       </Shadow>
-      <Button onClick={htmlToImageConvert}>이미지 다운로드</Button>
+      <Button
+        onClick={handleCaptureClick}
+        style={{ backgroundColor: backgroundColor }}
+      >
+        이미지 다운로드
+      </Button>
+      <Footer>
+        Developed by 김종호<br></br> Painted by 김현영
+      </Footer>
     </Container>
   );
 };

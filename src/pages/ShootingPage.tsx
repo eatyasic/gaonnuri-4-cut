@@ -90,56 +90,51 @@ const ShootingPage = ({
   photoRatio,
 }: Props) => {
   const camera = useRef<any>(null);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [curCharacter, setCurCharacter] = useState<any>();
 
   const navigate = useNavigate();
   const GoToNextPage = () => {
-    navigate(nextURL);
+    navigate(nextURL, { replace: true });
   };
 
   const buttonClick = () => {
     picArr.push(camera.current.takePhoto());
-    setCount((x) => x + 1);
-    if (count >= 3) {
+    setCount(count + 1);
+    if (count >= 4) {
       setPictures(picArr);
       GoToNextPage();
     }
-    changeCharacter();
+    console.log("takePhoto" + count);
   };
 
-  const changeCharacter = () => {
-    if (count === 0) setCurCharacter(character_1);
-    else if (count === 1) setCurCharacter(character_2);
-    else if (count === 2) setCurCharacter(character_3);
-    else if (count === 3) setCurCharacter(character_4);
+  const changeCharacter = (count: number) => {
+    console.log("Change" + count);
+
+    if (count === 1) setCurCharacter(character_1);
+    else if (count === 2) setCurCharacter(character_2);
+    else if (count === 3) setCurCharacter(character_3);
+    else if (count === 4) setCurCharacter(character_4);
   };
-  useEffect(() => {
-    changeCharacter();
-  }, [count]);
 
-  const [seconds, setSeconds] = useState<number>(10);
-  const [visible, setVisible] = useState<boolean>(true);
+  const [seconds, setSeconds] = useState(10);
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
-    // 타이머가 4번만 반복되도록 설정
-    if (count < 4) {
-      const interval = setInterval(() => {
-        setSeconds((prev) => {
-          if (prev <= 1) {
-            setTimeout(() => {
-              setVisible(true);
-            }, 100); // 100ms = 0.1초
-            setVisible(false);
-            buttonClick();
-            return 10; // 타이머를 10초로 리셋
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    const timer = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds - 1);
+    }, 1000);
 
-      return () => clearInterval(interval); // 컴포넌트 언마운트 시 타이머를 클리어
+    if (seconds === 0) {
+      setSeconds(10);
+      buttonClick();
     }
-  }, [count]); // count가 변할 때마다 useEffect 실행
+
+    return () => clearInterval(timer);
+  }, [seconds]);
+
+  useEffect(() => {
+    changeCharacter(count);
+  }, [count]);
 
   return (
     <Container>
@@ -159,12 +154,10 @@ const ShootingPage = ({
             }}
             ref={camera}
           />
-          {isCharacter && (
-            <Character src={curCharacter} style={{ transform: "scaleX(-1)" }} />
-          )}
+          {isCharacter && <Character src={curCharacter} />}
         </CameraView>
       </CameraLocation>
-      {/* <Button onClick={buttonClick}></Button> */}
+      <Button onClick={buttonClick}></Button>
       <Timer>{seconds}</Timer>
     </Container>
   );

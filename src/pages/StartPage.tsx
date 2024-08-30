@@ -8,7 +8,7 @@ interface Props {
 const StartPage = ({ nextUrl }: Props) => {
   const navigate = useNavigate();
   const GoToSelectCutPage = () => {
-    navigate(nextUrl);
+    navigate(nextUrl, { replace: true });
   };
 
   return (

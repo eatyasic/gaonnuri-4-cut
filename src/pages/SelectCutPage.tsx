@@ -13,7 +13,7 @@ import bigCharacterGreen from "assets/big-character-green.png";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: fit-content;
   width: 100vw;
   align-items: center;
   text-align: center;
@@ -56,11 +56,30 @@ const Selection = styled.div`
     bottom: -5px;
     border: 10px solid transparent;
     pointer-events: none;
+    box-shadow: 0px 4px 4px 0px #a8a8a8;
   }
+  &:has(:checked) {
+    &::before {
+      box-shadow: 0px 0px 0 5px #3e3ca5;
+    }
+  }
+`;
 
-  &:hover::before {
-    box-shadow: 0px 4px 4px 0px #00000040;
-  }
+const Button = styled.button`
+  border: none;
+  width: 150px;
+  height: 50px;
+  background-color: #3e3ca5;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 50px;
+`;
+
+const Radio = styled.input`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
 `;
 
 interface Props {
@@ -70,6 +89,13 @@ interface Props {
   readonly setPhotoRatio: (arg0: string) => void;
   readonly setIsBigFrame: (arg0: boolean) => void;
 }
+
+type NowSelect = {
+  readonly setSelectedFrame: any;
+  readonly setIsCharacter: boolean;
+  readonly setPhotoRatio: string;
+  readonly setIsBigFrame: boolean;
+};
 
 const SelectCutPage = ({
   nextUrl,
@@ -85,11 +111,11 @@ const SelectCutPage = ({
     ratio: string,
     isBigFrame: boolean
   ) => {
-    navigate(nextUrl);
     setSelectedFrame(selectedFrame);
     setIsCharacter(isCharacter);
     setPhotoRatio(ratio);
     setIsBigFrame(isBigFrame);
+    navigate(nextUrl, { replace: true });
   };
 
   const FrameList: Array<[any, boolean, string, boolean]> = [
@@ -102,6 +128,13 @@ const SelectCutPage = ({
     [smallDefaultWhite, false, "260/181", false],
     [bigDefaultWhite, false, "273/376", true],
   ];
+
+  let nowSelect: NowSelect = {
+    setSelectedFrame: FrameList[0][0],
+    setIsCharacter: FrameList[0][1],
+    setPhotoRatio: FrameList[0][2],
+    setIsBigFrame: FrameList[0][3],
+  };
 
   const toTwoRowList = (array: Array<[any, boolean, string, boolean]>) => {
     const row = [];
@@ -119,16 +152,37 @@ const SelectCutPage = ({
       {twoRowList.map((row, index) => (
         <Row key={index}>
           {row.map(([frame, isCharacter, photoRatio, isBigFrame]) => (
-            <Selection
-              onClick={() =>
-                GoToShootingPage(frame, isCharacter, photoRatio, isBigFrame)
-              }
-            >
+            <Selection>
+              <Radio
+                type="radio"
+                name="frame"
+                onClick={() => {
+                  console.log("frame", frame);
+                  nowSelect = {
+                    setSelectedFrame: frame,
+                    setIsCharacter: isCharacter,
+                    setPhotoRatio: photoRatio,
+                    setIsBigFrame: isBigFrame,
+                  };
+                }}
+              />
               <FrameImg src={frame} />
             </Selection>
           ))}
         </Row>
       ))}
+      <Button
+        onClick={() =>
+          GoToShootingPage(
+            nowSelect.setSelectedFrame,
+            nowSelect.setIsCharacter,
+            nowSelect.setPhotoRatio,
+            nowSelect.setIsBigFrame
+          )
+        }
+      >
+        다음
+      </Button>
     </Container>
   );
 };
