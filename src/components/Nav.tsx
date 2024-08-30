@@ -18,9 +18,10 @@ const Button = styled.button`
   background: none;
   padding: 0 10px;
   font-size: 16px;
+  color: #707070;
 
   &::before {
-    content: "< ";
+    content: "← ";
   }
 `;
 

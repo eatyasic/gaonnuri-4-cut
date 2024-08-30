@@ -57,13 +57,14 @@ const Button = styled.button`
 `;
 
 const Timer = styled.div`
+  display: flex;
   margin: 60px 0;
   width: 100vw;
   height: 100px;
   font-family: "Pretendard-ExtraBold";
   font-size: 50px;
-  text-align: center;
-  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Character = styled.img`
@@ -120,12 +121,14 @@ const ShootingPage = ({
   const [visible, setVisible] = useState(true);
   useEffect(() => {
     const timer = setInterval(() => {
+      setIsVisible(true);
       setSeconds((prevSeconds) => prevSeconds - 1);
     }, 1000);
 
     if (seconds === 0) {
       setSeconds(10);
       buttonClick();
+      setIsVisible(false);
     }
 
     return () => clearInterval(timer);
@@ -135,11 +138,13 @@ const ShootingPage = ({
     changeCharacter(count);
   }, [count]);
 
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <Container>
       <Counter>{count}/4</Counter>
       <CameraLocation
-        style={{ display: visible ? "flex" : "none" }}
+        className={`fade-in ${isVisible ? "visible" : ""}`}
         photoRatio={photoRatio}
       >
         <CameraView photoRatio={photoRatio}>

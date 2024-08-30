@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import html2canvas from "html2canvas";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
-import NavBar from "components/Nav";
 
 const Container = styled.div`
   position: relative;
@@ -170,8 +169,6 @@ const SelectPhotoPage = ({
 
   return (
     <Container>
-      <NavBar setPictures={setPictures}></NavBar>
-
       <Shadow>
         <Result ref={divRef} id="ResultImage">
           {isBigFrame ? (

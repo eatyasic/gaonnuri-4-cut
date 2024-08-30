@@ -7,3 +7,12 @@ html, body, #root{
 /* #video {
     transform: rotateX(360deg);
 } */
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
