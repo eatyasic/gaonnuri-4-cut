@@ -157,7 +157,7 @@ const ShootingPage = ({
           {isCharacter && <Character src={curCharacter} />}
         </CameraView>
       </CameraLocation>
-      <Button onClick={buttonClick}></Button>
+      {/* <Button onClick={buttonClick}></Button> */}
       <Timer>{seconds}</Timer>
     </Container>
   );
