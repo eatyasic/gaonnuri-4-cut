@@ -56,7 +56,7 @@ const Selection = styled.div`
     bottom: -5px;
     border: 10px solid transparent;
     pointer-events: none;
-    box-shadow: 0px 4px 4px 0px #a8a8a8;
+    box-shadow: 0px 4px 4px 0px #c9c9c9;
   }
   &:has(:checked) {
     &::before {
@@ -73,6 +73,8 @@ const Button = styled.button`
   color: white;
   border-radius: 10px;
   margin-bottom: 50px;
+  font-family: "Pretendard-ExtraBold";
+  font-size: 15px;
 `;
 
 const Radio = styled.input`
@@ -119,13 +121,13 @@ const SelectCutPage = ({
   };
 
   const FrameList: Array<[any, boolean, string, boolean]> = [
-    [smallCharacterSky, false, "260/181", false],
+    [smallCharacterSky, false, "130/90.5", false],
     [bigCharacterSky, true, "273/376", true],
-    [smallCharacterGreen, false, "260/181", false],
+    [smallCharacterGreen, false, "130/90.5", false],
     [bigCharacterGreen, true, "273/376", true],
-    [smallDefaultBlack, false, "260/181", false],
+    [smallDefaultBlack, false, "130/90.5", false],
     [bigDefaultBlack, false, "273/376", true],
-    [smallDefaultWhite, false, "260/181", false],
+    [smallDefaultWhite, false, "130/90.5", false],
     [bigDefaultWhite, false, "273/376", true],
   ];
 

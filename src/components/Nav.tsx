@@ -8,15 +8,15 @@ const Nav = styled.div`
   top: 0;
   width: 100vw;
   align-items: center;
-  justify-content: end;
+  justify-content: start;
   z-index: 999;
 `;
 
 const Button = styled.button`
-  font-family: "Pretendard-ExtraBold";
+  font-family: "Pretendard-Regular";
   border: none;
   background: none;
-  padding-right: 10px;
+  padding: 0 10px;
   font-size: 16px;
 
   &::before {

@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { saveAs } from "file-saver";
+import NavBar from "components/Nav";
 
 const Container = styled.div`
   position: relative;
@@ -14,6 +15,7 @@ const Container = styled.div`
 `;
 
 const Frame = styled.img`
+  position: absolute;
   object-fit: contain;
   height: 100%;
 `;
@@ -127,30 +129,49 @@ interface Props {
   readonly pictures: string[];
   readonly frame: any;
   readonly isBigFrame: boolean;
+  readonly setPictures: (arg0: string[]) => void;
 }
 
-const SelectPhotoPage = ({ pictures, frame, isBigFrame }: Props) => {
+const SelectPhotoPage = ({
+  setPictures,
+  pictures,
+  frame,
+  isBigFrame,
+}: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [dataurl, setDataurl] = useState<string>("");
   const [backgroundColor, setBackgroundColor] = useState<string>("#3e3ca5");
 
   const handleCaptureClick = async () => {
-    setBackgroundColor("#666666");
-    if (divRef.current) {
-      const canvas = await html2canvas(divRef.current);
-      const imgData = canvas.toDataURL("image/png");
-      setDataurl(imgData);
+    if (!divRef.current) return;
 
-      // 이미지 다운로드 링크 생성
-      const link = document.createElement("a");
-      link.href = imgData;
-      link.download = "captured.png";
-      link.click();
+    try {
+      if (divRef.current) {
+        const canvas = await html2canvas(divRef.current, { scale: 4 });
+        const imgData = canvas.toDataURL("image/png");
+        canvas.toBlob((blob) => {
+          if (blob) {
+            saveAs(blob, "gaonnuri-4-cut.png");
+          }
+        });
+        // setDataurl(imgData);
+
+        // // 이미지 다운로드 링크 생성
+        // const link = document.createElement("a");
+        // link.href = imgData;
+        // link.download = "captured.png";
+        // link.click();
+      }
+      setBackgroundColor("#666666");
+    } catch (error) {
+      alert("Error converting div to image:" + error);
     }
   };
 
   return (
     <Container>
+      <NavBar setPictures={setPictures}></NavBar>
+
       <Shadow>
         <Result ref={divRef} id="ResultImage">
           {isBigFrame ? (

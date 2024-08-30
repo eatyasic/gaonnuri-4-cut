@@ -11,8 +11,6 @@ import ShootingPage from "pages/ShootingPage";
 import Test from "components/Test";
 import { useState, useEffect } from "react";
 import SelectPhotoPage from "pages/SelectPhotoPage";
-import styled from "@emotion/styled";
-import NavBar from "components/Nav";
 
 function App() {
   const [pictures, setPictures] = useState<string[]>([]);
@@ -33,7 +31,6 @@ function App() {
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <NavBar setPictures={setPictures}></NavBar>
       <Routes>
         <Route path="/" element={<StartPage nextUrl="/selectCut" />} />
         <Route
@@ -63,6 +60,7 @@ function App() {
           path="/selectPhoto"
           element={
             <SelectPhotoPage
+              setPictures={setPictures}
               pictures={pictures}
               frame={selectedFrame}
               isBigFrame={isBigFrame!}
