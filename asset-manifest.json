@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/gaonnuri-4-cut/static/css/main.b2af9825.css",
-    "main.js": "/gaonnuri-4-cut/static/js/main.6e1f49c4.js",
-    "static/media/big-character-green.png": "/gaonnuri-4-cut/static/media/big-character-green.2c46d959f3341a62ea33.png",
-    "static/media/big-character-sky.png": "/gaonnuri-4-cut/static/media/big-character-sky.1d3d8f52043f41e172c3.png",
+    "main.js": "/gaonnuri-4-cut/static/js/main.d067baa5.js",
+    "static/media/big-character-green.png": "/gaonnuri-4-cut/static/media/big-character-green.d75de99dfc312388a5b7.png",
+    "static/media/big-character-sky.png": "/gaonnuri-4-cut/static/media/big-character-sky.e161f1b4ea44d385a611.png",
     "static/media/small-character-green.png": "/gaonnuri-4-cut/static/media/small-character-green.e4c671f48658ab37f802.png",
     "static/media/small-character-sky.png": "/gaonnuri-4-cut/static/media/small-character-sky.0a844a0f065d50544b92.png",
     "static/media/startPageBackground.png": "/gaonnuri-4-cut/static/media/startPageBackground.f5fd0661cec12d3b43f6.png",
@@ -13,10 +13,10 @@
     "static/media/small-default-black.svg": "/gaonnuri-4-cut/static/media/small-default-black.da19717c717ca7097b29da74d69f8583.svg",
     "index.html": "/gaonnuri-4-cut/index.html",
     "main.b2af9825.css.map": "/gaonnuri-4-cut/static/css/main.b2af9825.css.map",
-    "main.6e1f49c4.js.map": "/gaonnuri-4-cut/static/js/main.6e1f49c4.js.map"
+    "main.d067baa5.js.map": "/gaonnuri-4-cut/static/js/main.d067baa5.js.map"
   },
   "entrypoints": [
     "static/css/main.b2af9825.css",
-    "static/js/main.6e1f49c4.js"
+    "static/js/main.d067baa5.js"
   ]
 }
